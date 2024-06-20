@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PruebaMVC.Models;
 using PruebaMVC.Services.Repositorio;
+using System.Collections.Generic;
 
 namespace PruebaMVC.Controllers
 {
@@ -44,11 +46,29 @@ namespace PruebaMVC.Controllers
             return View(conciertos);
         }
 
-        public async Task<IActionResult> IndexConsulta()
+        public async Task<IActionResult> IndexConsulta(string sortOrder)
         {
             var vista = await context.DameTodos();
-            var consulta = vista.Where(x=> x is { Fecha.Year: > 2015, Precio: > 30 });
-            return View(consulta);
+            var conciertos = vista.Where(x => x is { Fecha.Year: > 2015, Precio: > 30 });
+            ViewData["TituloSortParm"] = String.IsNullOrEmpty(sortOrder) ? "titulo_desc" : "";
+            ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha-desc" : "Fecha";
+            ViewData["LugarSortParm"] = sortOrder == "Lugar" ? "lugar_desc" : "Lugar";
+            ViewData["PrecioSortParm"] = sortOrder == "Precio" ? "precio_desc" : "Precio";
+            conciertos = sortOrder switch
+            {
+                "titulo_desc" => conciertos.OrderByDescending(s => s.Titulo),
+                "Lugar" => conciertos.OrderBy(s => s.Lugar),
+                "lugar_desc" => conciertos.OrderByDescending(s => s.Lugar),
+                "Genero" => conciertos.OrderBy(s => s.Genero),
+                "genero_desc" => conciertos.OrderByDescending(s => s.Genero),
+                "Fecha" => conciertos.OrderBy(s => s.Fecha),
+                "fecha-desc" => conciertos.OrderByDescending(s => s.Fecha),
+                "Precio" => conciertos.OrderBy(s => s.Precio),
+                "precio_desc" => conciertos.OrderByDescending(s => s.Precio),
+                _ => conciertos.OrderBy(s => s.Titulo)
+            };
+            return View(conciertos);
         }
 
         // GET: Conciertoes/Details/5
