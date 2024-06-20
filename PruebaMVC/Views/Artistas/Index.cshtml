@@ -30,7 +30,7 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["GeneroSortParm"]">@Html.DisplayNameFor(model => model.Genero)</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["FechaSortParm"]">@Html.DisplayNameFor(model => model.FechaNac)</a>
+                @Html.DisplayNameFor(model => model.FechaNac)
             </th>
             <th></th>
         </tr>
