@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PruebaMVC.Models;
 using PruebaMVC.Services.Repositorio;
@@ -19,9 +20,28 @@ namespace PruebaMVC.Controllers
         private const string DataComboNombre = "Nombre";
 
         // GET: ConciertosGrupoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+            ViewData["NombreSortParm"] = sortOrder == "Nombre" ? "nombre_desc" : "Nombre";
+            ViewData["TituloSortParm"] = sortOrder == "Titulo" ? "titulo_desc" : "Titulo";
             var grupoCContext = await contextVista.DameTodos();
+
+            switch (sortOrder)
+            {
+                case "nombre_desc":
+                    grupoCContext = grupoCContext.OrderByDescending(s => s.Nombre).ToList();
+                    break;
+                case "Nombre":
+                    grupoCContext = grupoCContext.OrderBy(s => s.Nombre).ToList();
+                    break;
+                case "titulo_desc":
+                    grupoCContext = grupoCContext.OrderByDescending(s => s.Titulo).ToList();
+                    break;
+                case "Titulo":
+                    grupoCContext = grupoCContext.OrderBy(s => s.Titulo).ToList();
+                    break;
+            }
+
             return View(grupoCContext);
         }
 

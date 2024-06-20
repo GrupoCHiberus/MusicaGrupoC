@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PruebaMVC.Models.Usuario>
+@model IEnumerable<PruebaMVC.Models.Usuario>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,14 +9,14 @@
         <div class="col-11">
             <form asp-controller="Usuarios" asp-action="Index">
                 <p>
-                    <span class="gordete">Title:</span> <input type="text" name="SearchString" />
-                    <input type="submit" value="Filter" />
+                    <span class="gordete">Buscador:</span> <input type="text" name="SearchString" />
+                    <input type="submit" value="Busca" />
                 </p>
             </form>
         </div>
         <div class="col-1">
             <p>
-                <a class="gordete" asp-action="Create">Create New</a>
+                <a class="gordete" asp-action="Create"><i class="fa-solid fa-circle-plus fs-3"></i></a>
             </p>
         </div>
     </div>
@@ -31,8 +31,7 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParm"]">@Html.DisplayNameFor(model => model.Email)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contraseña)
-
+                 <a asp-action="Index" asp-route-sortOrder="@ViewData["ContraseñaSortParm"]">@Html.DisplayNameFor(model => model.Contraseña)</a>
             </th>
             <th>
                 <form asp-action="Index" asp-controller="Usuarios">
@@ -66,9 +65,9 @@
                     }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a> 
+                <a asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-eye"></i></a> 
+                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
         }

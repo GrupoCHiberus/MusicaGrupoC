@@ -12,6 +12,7 @@ namespace PruebaMVC.Controllers
         {
             ViewData["NombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
             ViewData["EmailSortParm"] = sortOrder == "Email" ? "email_desc" : "Email";
+            ViewData["ContraseñaSortParm"] = sortOrder == "Contraseña" ? "contraseña_desc" : "Contraseña";
 
             if (mostrar.Equals("Mostrar"))
             {
@@ -34,7 +35,10 @@ namespace PruebaMVC.Controllers
                 "nombre_desc" => usuarios.OrderByDescending(s => s.Nombre),
                 "Email" => usuarios.OrderBy(s => s.Email),
                 "email_desc" => usuarios.OrderByDescending(s => s.Email),
-                _ => usuarios.OrderBy(s => s.Nombre)
+                "Contraseña" => usuarios.OrderBy(s =>s.Contraseña),
+                "contraseña_desc" => usuarios.OrderByDescending(s =>s.Contraseña),
+                 _ => usuarios.OrderBy(s => s.Nombre)
+
             };
             return View(usuarios);
         }

@@ -19,7 +19,10 @@ namespace PruebaMVC.Controllers
             var grupoCContext = await contextVista.DameTodos();
             ViewData["TituloSortParm"] = String.IsNullOrEmpty(sortOrder) ? "titulo_desc" : "";
             ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha-desc" : "Fecha";
             ViewData["AlbumesSortParm"] = sortOrder == "Albumes" ? "albumes_desc" : "Albumes";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha_desc" : "Fecha";
+
             if (grupoCContext == null)
             {
                 return Problem("Es nulo");
@@ -37,6 +40,8 @@ namespace PruebaMVC.Controllers
                 "titulo_desc" => canciones.OrderByDescending(s => s.Titulo),
                 "Genero" => canciones.OrderBy(s => s.Genero),
                 "genero_desc" => canciones.OrderByDescending(s => s.Genero),
+                "Fecha" => canciones.OrderBy(s => s.Fecha),
+                "fecha-desc" => canciones.OrderByDescending(s => s.Fecha),
                 "Albumes" => canciones.OrderBy(s => s.TituloAlbum),
                 "albumes_desc" => canciones.OrderByDescending(s => s.TituloAlbum),
                 _ => canciones.OrderBy(s => s.Titulo)

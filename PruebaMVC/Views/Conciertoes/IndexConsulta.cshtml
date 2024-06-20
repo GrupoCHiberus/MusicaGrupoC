@@ -3,9 +3,23 @@
 @{
     ViewData["Title"] = "IndexConsulta";
 }
-<p class="pt-3">
-    <a class="gordete" asp-action="Create">Create New</a>
-</p>
+<div class="container-fluid pt-3">
+    <div class="row">
+        <div class="col-11">
+            <form asp-controller="Conciertoes" asp-action="Index">
+                <p>
+                    <span class="gordete">Buscador:</span>  <input type="text" name="SearchString" />
+                    <input type="submit" value="Busca" />
+                </p>
+            </form>
+        </div>
+        <div class="col-1">
+            <p>
+                <a class="gordete" asp-action="Create"><i class="fa-solid fa-circle-plus fs-3"></i></a>
+            </p>
+        </div>
+    </div>
+</div>
 <table class="table">
     <caption>
         informacion sobre conciertos
@@ -13,19 +27,19 @@
     <thead>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Fecha)
+            <a asp-action="IndexConsulta" asp-route-sortOrder="@ViewData["FechaSortParm"]">@Html.DisplayNameFor(model => model.Fecha)</a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Genero)
+            <a asp-action="IndexConsulta" asp-route-sortOrder="@ViewData["GeneroSortParm"]">@Html.DisplayNameFor(model => model.Genero)</a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Lugar)
+            <a asp-action="IndexConsulta" asp-route-sortOrder="@ViewData["LugarSortParm"]">@Html.DisplayNameFor(model => model.Lugar)</a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Titulo)
+            <a asp-action="IndexConsulta" asp-route-sortOrder="@ViewData["TituloSortParm"]">@Html.DisplayNameFor(model => model.Titulo)</a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Precio)
+            <a asp-action="IndexConsulta" asp-route-sortOrder="@ViewData["PrecioSortParm"]">@Html.DisplayNameFor(model => model.Precio)</a>
         </th>
         <th></th>
     </tr>
@@ -50,9 +64,9 @@
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a> 
+                <a asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-eye"></i></a> 
+                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a>
             </td>
         </tr>
     }

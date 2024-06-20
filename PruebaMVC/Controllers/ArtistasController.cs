@@ -27,6 +27,7 @@ namespace PruebaMVC.Controllers
         {
             ViewData["NombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
             ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha de Nacimiento" ? "fecha_desc" : "Fecha de Nacimiento";
             if (await _context.DameTodos() == null)
             {
                 return Problem("Es nulo");
@@ -51,6 +52,12 @@ namespace PruebaMVC.Controllers
                 case "genero_desc":
                     artistas = artistas.OrderByDescending(s => s.Genero);
                     break;
+                case "Fecha de Nacimiento":
+                    artistas = artistas.OrderBy(s => s.FechaNac);
+                    break;
+                case "fecha_desc":
+                    artistas = artistas.OrderByDescending(s => s.FechaNac);
+                    break;
                 default:
                     artistas = artistas.OrderBy(s => s.Nombre);
                     break;
@@ -58,11 +65,37 @@ namespace PruebaMVC.Controllers
             return View(artistas);
         }
 
-        public async Task<IActionResult> IndexConsulta()
+        public async Task<IActionResult> IndexConsulta(string sortOrder)
         {
+            ViewData["NombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
+            ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha de Nacimiento" ? "fecha_desc" : "Fecha de Nacimiento";
             var vista = await _context.DameTodos();
-            var consulta = vista.Where(x => x.FechaNac !=null && x.FechaNac.Value.Year >1950);
-            return View(consulta);
+            var artistas = vista.Where(x => x.FechaNac !=null && x.FechaNac.Value.Year >1950);
+
+            switch (sortOrder)
+            {
+                case "nombre_desc":
+                    artistas = artistas.OrderByDescending(s => s.Nombre);
+                    break;
+                case "Genero":
+                    artistas = artistas.OrderBy(s => s.Genero);
+                    break;
+                case "genero_desc":
+                    artistas = artistas.OrderByDescending(s => s.Genero);
+                    break;
+                case "Fecha de Nacimiento":
+                    artistas = artistas.OrderBy(s => s.FechaNac);
+                    break;
+                case "fecha_desc":
+                    artistas = artistas.OrderByDescending(s => s.FechaNac);
+                    break;
+                default:
+                    artistas = artistas.OrderBy(s => s.Nombre);
+                    break;
+            }
+
+            return View(artistas);
         }
 
         // GET: Artistas/Details/5
