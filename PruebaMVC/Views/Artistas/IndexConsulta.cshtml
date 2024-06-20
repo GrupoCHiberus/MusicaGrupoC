@@ -3,20 +3,34 @@
 @{
     ViewData["Title"] = "IndexConsulta";
 }
-<p class="pt-3">
-    <a class="gordete" asp-action="Create"><i class="fa-solid fa-circle-plus fs-3"></i></a>
-</p>
+<div class="container-fluid pt-3">
+    <div class="row">
+        <div class="col-11">
+            <form asp-controller="Artistas" asp-action="Index">
+                <p>
+                    <span class="gordete">Buscador:</span>  <input type="text" name="SearchString" />
+                    <input type="submit" value="Busca" />
+                </p>
+            </form>
+        </div>
+        <div class="col-1">
+            <p>
+                <a class="gordete" asp-action="Create"><i class="fa-solid fa-circle-plus fs-3"></i></a>
+            </p>
+        </div>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nombre)
+                <a asp-action="IndexConsulta" asp-route-sortOrder="@ViewData["NombreSortParm"]">@Html.DisplayNameFor(model => model.Nombre)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genero)
+                <a asp-action="IndexConsulta" asp-route-sortOrder="@ViewData["GeneroSortParm"]">@Html.DisplayNameFor(model => model.Genero)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaNac)
+                <a asp-action="IndexConsulta" asp-route-sortOrder="@ViewData["FechaSortParm"]">@Html.DisplayNameFor(model => model.FechaNac)</a>
             </th>
             <th></th>
         </tr>

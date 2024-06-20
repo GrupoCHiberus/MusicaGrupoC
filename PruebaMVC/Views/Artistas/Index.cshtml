@@ -8,8 +8,8 @@
         <div class="col-11">
             <form asp-controller="Artistas" asp-action="Index">
                 <p>
-                    <span class="gordete">Title:</span>  <input type="text" name="SearchString" />
-                    <input type="submit" value="Filter" />
+                    <span class="gordete">Buscador:</span>  <input type="text" name="SearchString" />
+                    <input type="submit" value="Busca" />
                 </p>
             </form>
         </div>
@@ -30,7 +30,7 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["GeneroSortParm"]">@Html.DisplayNameFor(model => model.Genero)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaNac)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["FechaSortParm"]">@Html.DisplayNameFor(model => model.FechaNac)</a>
             </th>
             <th></th>
         </tr>

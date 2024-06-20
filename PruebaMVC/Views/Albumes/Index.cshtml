@@ -8,8 +8,8 @@
         <div class="col-11">
             <form asp-controller="Albumes" asp-action="Index">
                 <p>
-                    <span class="gordete">Title:</span>  <input type="text" name="SearchString" />
-                    <input type="submit" value="Filter" />
+                    <span class="gordete">Buscador:</span>  <input type="text" name="SearchString" />
+                    <input type="submit" value="Busca" />
                 </p>
             </form>
         </div>
@@ -42,15 +42,15 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Titulo)
-                    @await Component.InvokeAsync("Album", item.Titulo)
+                    
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NombreGrupo)<br/>
-                    @await Component.InvokeAsync("Album", item.NombreGrupo)
+                    
                     @Html.DisplayFor(modelItem => item.Genero)<br/>
-                    @await Component.InvokeAsync("Album", item.Genero)
+                    
                     @Html.DisplayFor(modelItem => item.Fecha)<br/>
-                    @await Component.InvokeAsync("Album", item.Fecha)
+                    
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a> 

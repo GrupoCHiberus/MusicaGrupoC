@@ -147,12 +147,14 @@
                 $('.carouselTexto').css("width", $(window).width() / 2.2 + 'px');
                 $('.carouselImagen').css("height", $('.carouselImagen').width() / 1.3 + 'px');
                 $('.carouselTexto').css("height", $('.carouselTexto').width() / 1.3 + 'px');
+                $('.carouselTexto').css("font-size", ($('.carouselImagen').width() / 600) + 'em');
             } else {
                 $('.carouselContenedor').addClass("flex-wrap");
                 $('.carouselImagen').css("width", ($(window).width() - 50) + 'px');
                 $('.carouselTexto').css("width", ($(window).width() - 50) + 'px');
                 $('.carouselImagen').css("height", $('.carouselImagen').width() / 1.3 + 'px');
                 $('.carouselTexto').css("height", (300000 / $('.carouselTexto').width()) + 'px');
+                $('.carouselTexto').css("font-size", 1 + 'em');
             }
             $('.carouselImagen').css("font-size", ($('.carouselImagen').width() / 250) + 'em');
             $('#Filtro').css("height", ($(window).height() - 50 - $('.elIcono').height()) + "px");
