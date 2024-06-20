@@ -26,6 +26,7 @@ namespace PruebaMVC.Controllers
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             ViewData["NombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha de Nacimiento" ? "fecha-desc" : "Fecha de Nacimiento";
             ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
             if (await _context.DameTodos() == null)
             {
@@ -50,6 +51,12 @@ namespace PruebaMVC.Controllers
                     break;
                 case "genero_desc":
                     artistas = artistas.OrderByDescending(s => s.Genero);
+                    break;
+                case "Fecha de Nacimiento":
+                    artistas = artistas.OrderBy(s => s.FechaNac);
+                    break;
+                case "fecha_desc":
+                    artistas = artistas.OrderByDescending(s => s.FechaNac);
                     break;
                 default:
                     artistas = artistas.OrderBy(s => s.Nombre);

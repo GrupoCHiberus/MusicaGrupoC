@@ -36,7 +36,7 @@
             <a asp-action="Index" asp-route-sortOrder="@ViewData["GeneroSortParm"]">@Html.DisplayNameFor(model => model.Genero)</a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fecha)
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["FechaSortParm"]">@Html.DisplayNameFor(model => model.Fecha)</a>
         </th>
         <th>
             <a asp-action="Index" asp-route-sortOrder="@ViewData["PrecioSortParm"]">@Html.DisplayNameFor(model => model.Precio)</a>
