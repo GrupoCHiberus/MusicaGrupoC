@@ -44,8 +44,6 @@ namespace PruebaMVC.Controllers
                 "fecha-desc" => canciones.OrderByDescending(s => s.Fecha),
                 "Albumes" => canciones.OrderBy(s => s.TituloAlbum),
                 "albumes_desc" => canciones.OrderByDescending(s => s.TituloAlbum),
-                "Fecha" => canciones.OrderBy(s => s.Fecha), 
-                "fecha_desc" => canciones.OrderByDescending(s => s.Fecha),
                 _ => canciones.OrderBy(s => s.Titulo)
             };
             return View(canciones);
