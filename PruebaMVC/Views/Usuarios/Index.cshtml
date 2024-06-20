@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["Asteriscos"] = "***********";
 }
 <div class="container-fluid pt-3">
     <div class="row">
@@ -31,28 +32,45 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Contraseña)
+
             </th>
-            <th></th>
+            <th>
+                <form asp-action="Index" asp-controller="Usuarios">
+                    <button class="btn btn-primary" type="submit" value="Mostrar" name="mostrar"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-primary" type="submit" value="Ocultar" name="mostrar"><i class="bi bi-eye-slash"></i></button>
+                </form>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contraseña)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @{
+                        if (ViewData["Esconder"].Equals("Si"))
+                        {
+                            @ViewData["Asteriscos"]
+                            ;
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Contraseña)
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

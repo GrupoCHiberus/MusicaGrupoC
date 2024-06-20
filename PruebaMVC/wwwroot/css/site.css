@@ -215,6 +215,9 @@ a {
     text-decoration: none;
     color: #60BDFF;
 }
+button.btn.btn-primary {
+    background-color: #60BDFF;
+}
 .gordete {
     font-weight: 600;
     color:white;
