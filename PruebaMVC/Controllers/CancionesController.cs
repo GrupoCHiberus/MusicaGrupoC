@@ -20,6 +20,8 @@ namespace PruebaMVC.Controllers
             ViewData["TituloSortParm"] = String.IsNullOrEmpty(sortOrder) ? "titulo_desc" : "";
             ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
             ViewData["AlbumesSortParm"] = sortOrder == "Albumes" ? "albumes_desc" : "Albumes";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha_desc" : "Fecha";
+
             if (grupoCContext == null)
             {
                 return Problem("Es nulo");
@@ -39,6 +41,8 @@ namespace PruebaMVC.Controllers
                 "genero_desc" => canciones.OrderByDescending(s => s.Genero),
                 "Albumes" => canciones.OrderBy(s => s.TituloAlbum),
                 "albumes_desc" => canciones.OrderByDescending(s => s.TituloAlbum),
+                "Fecha" => canciones.OrderBy(s => s.Fecha), 
+                "fecha_desc" => canciones.OrderByDescending(s => s.Fecha),
                 _ => canciones.OrderBy(s => s.Titulo)
             };
             return View(canciones);
