@@ -1,7 +1,8 @@
-﻿@model IEnumerable<PruebaMVC.Models.Usuario>
+@model IEnumerable<PruebaMVC.Models.Usuario>
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["Asteriscos"] = "***********";
 }
 <div class="container-fluid pt-3">
     <div class="row">
@@ -30,29 +31,45 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParm"]">@Html.DisplayNameFor(model => model.Email)</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["ContraseñaSortParm"]">@Html.DisplayNameFor(model => model.Contraseña)</a>
+                 <a asp-action="Index" asp-route-sortOrder="@ViewData["ContraseñaSortParm"]">@Html.DisplayNameFor(model => model.Contraseña)</a>
             </th>
-            <th></th>
+            <th>
+                <form asp-action="Index" asp-controller="Usuarios">
+                    <button class="btn btn-primary" type="submit" value="Mostrar" name="mostrar"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-primary" type="submit" value="Ocultar" name="mostrar"><i class="bi bi-eye-slash"></i></button>
+                </form>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contraseña)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @{
+                        if (ViewData["Esconder"].Equals("Si"))
+                        {
+                            @ViewData["Asteriscos"]
+                            ;
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Contraseña)
+                        }
+                    }
+                </td>
+                <td>
                 <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a> 
                 <a asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-eye"></i></a> 
                 <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

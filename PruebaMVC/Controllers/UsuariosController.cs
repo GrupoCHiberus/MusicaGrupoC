@@ -8,12 +8,20 @@ namespace PruebaMVC.Controllers
     public class UsuariosController(IGenericRepositorio<Usuario> context) : Controller
     {
         // GET: Usuarios
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string mostrar ="Ocultar")
         {
             ViewData["NombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
             ViewData["EmailSortParm"] = sortOrder == "Email" ? "email_desc" : "Email";
             ViewData["ContraseñaSortParm"] = sortOrder == "Contraseña" ? "contraseña_desc" : "Contraseña";
 
+            if (mostrar.Equals("Mostrar"))
+            {
+                ViewData["Esconder"] = "No";
+            }
+            if (mostrar.Equals("Ocultar"))
+            {
+                ViewData["Esconder"] = "Si";
+            }
             var vista = await context.DameTodos();
             var usuarios = vista.Select(x => x);
 
