@@ -1,0 +1,19 @@
+﻿@model System.Collections.Generic.List<PruebaMVC.Models.Concierto>
+
+@* tiene errores *@
+<div class="mt-3">
+    <label for="valoresLugares">Selecciona un lugar</label>
+    <select id="valoresLugares" class="form-control" styles="width:150px;">
+        <option value="Todos" selected>Todos los lugares</option>
+
+        @foreach (var item in Model)
+        {
+            if (item.Lugar != null)
+            {
+                ViewBag.Valor = item.Lugar;
+            }
+            <option value=@(ViewBag.Valor)>@Html.DisplayFor(modelItem => item.Lugar)</option>
+        }
+    </select>
+</div>
+

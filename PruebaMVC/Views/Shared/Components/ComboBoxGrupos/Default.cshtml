@@ -1,0 +1,14 @@
+﻿@model System.Collections.Generic.List<PruebaMVC.Models.Grupo>
+
+<div class="mt-3">
+    <label for="valoresGrupo">Selecciona un grupo</label>
+    <select id="valoresGrupo" class="form-control" styles="width:150px;">
+        <option value="Todos" selected>Todos grupos</option>
+    
+        @foreach (var item in Model)
+        {
+            <div style="display:none">@(ViewBag.Valor = item.Nombre)</div>
+            <option value=@(ViewBag.Valor)>@Html.DisplayFor(modelItem => item.Nombre)</option>
+        }
+    </select>
+</div>

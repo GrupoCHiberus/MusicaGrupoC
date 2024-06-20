@@ -1,0 +1,67 @@
+﻿@using Microsoft.CodeAnalysis.Elfie.Model.Map
+@model System.Collections.Generic.List<PruebaMVC.Models.Concierto>
+
+<div id="carouselExampleCaptions" class="carousel slide jacquard-24-regular" style="margin-left:25px;margin-right:25px;">
+    <div class="carousel-inner">
+        @foreach (var item in Model)
+        {
+            <div style="display:none;">
+                @(ViewBag.Id = item.Id)
+                @(ViewBag.Url = "img/Concierto/ConciertoId" + @ViewBag.Id + ".png")
+            </div>
+
+            <div class="carousel-item">
+                <div class="d-flex justify-content-between carouselContenedor" style="background-color:antiquewhite;">
+                    <div style="background-image:url('img/Concierto/ConciertoNotFound.jpg');background-repeat:no-repeat;background-size:cover;">
+                        <div class="d-flex flex-column justify-content-between carouselImagen" style="background-image:url(@(ViewBag.Url));background-repeat:no-repeat;background-size:cover;color:white;font-size:600%;">
+                            <p class="mt-4 ms-4 tituloCarousel">@Html.DisplayFor(modelItem => item.Titulo)</p>
+                            <div class="mb-4 d-flex">
+                                <p class="ms-2">Lugar: @Html.DisplayFor(modelItem => item.Lugar)</p>
+                                <p class="ms-auto me-2">Precio:  @Html.DisplayFor(modelItem => item.Precio)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center carouselTexto" style="height:550px;width:750px;">
+                        <div class="container-fluid  ms-4 me-4" style="column-count:2;column-gap:20px;column-rule:4px double black;">
+                            <h1>Descripción concierto</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et ultricies ipsum. Vivamus consectetur scelerisque magna, sed varius mauris pellentesque nec.
+                                Maecenas cursus sed lacus non vestibulum. Proin efficitur, odio in lobortis varius, ipsum augue molestie nulla, vel sollicitudin ex odio in ligula. Vivamus a ornare nunc,
+                                nec porttitor massa. Fusce vel risus urna. Integer elementum, dolor ac posuere ultrices, tellus lorem bibendum libero, in imperdiet ligula quam vitae sapien. Aenean tempus,
+                                ante at sollicitudin lobortis, lorem ante eleifend nunc, vitae convallis ipsum massa a risus. Suspendisse ut ex egestas, ornare massa quis, accumsan justo.
+                                Vivamus tristique nibh vitae leo commodo rutrum. In eros velit, fermentum tincidunt velit eget, cursus sollicitudin nulla. Ut sed porttitor enim.
+                                Mauris porta risus a magna efficitur, et ornare felis viverra. Aenean risus turpis, cursus sit amet diam et, volutpat vehicula arcu. Fusce pretium at lorem quis bibendum.
+                            </p>
+                            @* <p>
+                                Aliquam justo urna, consequat sed maximus et, dapibus eu lectus. Vivamus in lectus augue. Pellentesque leo dui, imperdiet id interdum eget, laoreet et lacus.
+                                Vestibulum sit amet laoreet purus, in facilisis orci. Phasellus volutpat mi nunc, sit amet laoreet lorem maximus nec. Maecenas at consequat ipsum, vitae dapibus urna.
+                                In porta ex ac enim cursus, a tincidunt felis sodales.
+                            </p> *@
+                            @* <p>
+                                Duis ultricies at sem sit amet posuere. Vivamus lobortis ut lorem ac egestas. Nam nec ullamcorper enim. Nullam erat ipsum, bibendum ut lorem ac, congue egestas urna.
+                                Ut non posuere risus, eu finibus libero. Curabitur eget ipsum venenatis, condimentum libero vel, rhoncus augue. Donec sagittis cursus egestas. Donec id libero commodo,
+                                sollicitudin sapien sed, tincidunt nunc. In et venenatis arcu, ut condimentum justo. Morbi vitae turpis bibendum, suscipit elit at, dapibus dolor. Ut at diam dapibus,
+                                pulvinar augue eget, ultrices arcu. Proin porttitor neque sed justo aliquet, ut efficitur ex blandit. Curabitur sed viverra urna.
+                            </p> *@
+                            @* <p>
+                                Vivamus ac risus faucibus, sodales justo sed, varius enim. Donec erat nunc, faucibus a tortor sagittis, malesuada efficitur quam. Ut hendrerit arcu vitae feugiat tristique.
+                                Donec eu ipsum sit amet augue ultricies tristique eu sit amet ipsum. Quisque interdum eleifend odio, semper tincidunt ex tincidunt et.
+                                Sed facilisis neque ac lectus dignissim venenatis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                                Nullam tortor risus, viverra vel erat eu, feugiat ullamcorper lacus. Praesent id purus vel mi blandit euismod. Sed dapibus ut tortor at lobortis.
+                        </p> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <a id="previo" class="carousel-control-prev">
+        <span style="background-color:red;height:100px;" class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </a>
+    <a id="siguiente" class="carousel-control-next">
+        <span style="background-color:red;height:100px;" class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </a>
+</div>
+

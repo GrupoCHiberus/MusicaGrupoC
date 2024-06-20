@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Shared\NewFolder\**" />
+    <Content Remove="Views\Shared\NewFolder\**" />
+    <EmbeddedResource Remove="Views\Shared\NewFolder\**" />
+    <None Remove="Views\Shared\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\Components\ConciertoCarousel\Default.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\ConciertoCarousel\Default.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\img\Concierto\ConciertoId1.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId10.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId11.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId12.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId13.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId14.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId15.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId16.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId17.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId18.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId19.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId2.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId20.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId21.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId3.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId4.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId5.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId6.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId7.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId8.png" />
+    <None Include="wwwroot\img\Concierto\ConciertoId9.png" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+﻿@model System.Collections.Generic.IEnumerable<PruebaMVC.Models.Albume>
+<table class="table">
+    <tr>
+        <th scope="col">Nombre del grupo </th>
+        <th scope="col">Genero del album</th>
+        <th scope="col">Fecha</th>
+    </tr>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grupos)<br/>
+                
+                @Html.DisplayFor(modelItem => item.Genero)<br/>
+               
+                @Html.DisplayFor(modelItem => item.Fecha)<br/>
+              
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
