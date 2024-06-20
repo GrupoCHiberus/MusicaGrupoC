@@ -12,6 +12,7 @@ namespace PruebaMVC.Controllers
         {
             ViewData["TituloSortParm"] = String.IsNullOrEmpty(sortOrder) ? "titulo_desc" : "";
             ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha-desc" : "Fecha";
             ViewData["LugarSortParm"] = sortOrder == "Lugar" ? "lugar_desc" : "Lugar";
             ViewData["PrecioSortParm"] = sortOrder == "Precio" ? "precio_desc" : "Precio";
             if (await context.DameTodos() == null)
@@ -34,6 +35,8 @@ namespace PruebaMVC.Controllers
                 "lugar_desc" => conciertos.OrderByDescending(s => s.Lugar),
                 "Genero" => conciertos.OrderBy(s => s.Genero),
                 "genero_desc" => conciertos.OrderByDescending(s => s.Genero),
+                "Fecha" => conciertos.OrderBy(s => s.Fecha),
+                "fecha-desc" => conciertos.OrderByDescending(s => s.Fecha),
                 "Precio" => conciertos.OrderBy(s => s.Precio),
                 "precio_desc" => conciertos.OrderByDescending(s => s.Precio),
                 _ => conciertos.OrderBy(s => s.Titulo)
