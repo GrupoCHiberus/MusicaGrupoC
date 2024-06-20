@@ -281,5 +281,11 @@ a {
 ::-webkit-scrollbar-thumb:hover {
     background: #001a33;
 }
+/*Color iconos editar....*/
+.fondoiconos a {
+    color: white;
+    margin-left:10px;
+}
+
 
 
