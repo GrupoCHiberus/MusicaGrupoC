@@ -23,9 +23,29 @@ namespace PruebaMVC.Controllers
         }
 
         // GET: GruposArtistas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+            ViewData["ArtistaSortParm"] = sortOrder == "NombreArtista" ? "artista_desc" : "NombreArtista";
+            ViewData["GrupoSortParm"] = sortOrder == "NombreGrupo" ? "grupo_desc" : "NombreGrupo";
+
             var grupoCContext = await _contextVista.DameTodos();
+
+            switch (sortOrder)
+            {
+                case "artista_desc":
+                    grupoCContext = grupoCContext.OrderByDescending(s => s.NombreArtista).ToList();
+                    break;
+                case "NombreArtista":
+                    grupoCContext = grupoCContext.OrderBy(s => s.NombreArtista).ToList();
+                    break;
+                case "grupo_desc":
+                    grupoCContext = grupoCContext.OrderByDescending(s => s.NombreGrupo).ToList();
+                    break;
+                case "NombreGrupo":
+                    grupoCContext = grupoCContext.OrderBy(s => s.NombreGrupo).ToList();
+                    break;
+            }
+
             return View(grupoCContext);
         }
 
