@@ -18,9 +18,28 @@ namespace PruebaMVC.Controllers
         private const string DataComboTitulo = "Titulo";
 
         // GET: CancionesConciertoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+            ViewData["CancionesSortParm"] = sortOrder == "TituloCanciones" ? "canciones_desc" : "TituloCanciones";
+            ViewData["TituloSortParm"] = sortOrder == "Titulo" ? "titulo_desc" : "Titulo";
             var grupoCContext = await contextVista.DameTodos();
+
+            switch (sortOrder)
+            {
+                case "canciones_desc":
+                    grupoCContext = grupoCContext.OrderByDescending(s => s.TituloCanciones).ToList();
+                    break;
+                case "Titulo":
+                    grupoCContext = grupoCContext.OrderBy(s => s.Titulo).ToList();
+                    break;
+                case "titulo_desc":
+                    grupoCContext = grupoCContext.OrderByDescending(s => s.Titulo).ToList();
+                    break;
+                default:
+                    grupoCContext = grupoCContext.OrderBy(s => s.TituloCanciones).ToList();
+                    break;
+            }
+
             return View(grupoCContext);
         }
 

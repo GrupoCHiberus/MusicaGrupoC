@@ -10,10 +10,10 @@
     <thead>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.TituloCanciones)
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["CancionesSortParm"]">@Html.DisplayNameFor(model => model.TituloCanciones)</a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Titulo)
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["TituloSortParm"]">@Html.DisplayNameFor(model => model.Titulo)</a>
         </th>
         <th></th>
     </tr>
