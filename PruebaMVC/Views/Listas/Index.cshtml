@@ -3,9 +3,23 @@
 @{
     ViewData["Title"] = "Index";
 }
-<p class="pt-3">
-    <a class="gordete" asp-action="Create">Crear Nueva</a>
-</p>
+<div class="container-fluid pt-3">
+    <div class="row">
+        <div class="col-11">
+            <form asp-controller="Listas" asp-action="Index">
+                <p>
+                    <span class="gordete">Buscador:</span>  <input type="text" name="SearchString" />
+                    <input type="submit" value="Busca" />
+                </p>
+            </form>
+        </div>
+        <div class="col-1">
+            <p>
+                <a class="gordete" asp-action="Create">Create New</a>
+            </p>
+        </div>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
