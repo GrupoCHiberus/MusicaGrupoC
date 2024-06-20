@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PruebaMVC.Models;
 using PruebaMVC.Services.Repositorio;
@@ -26,6 +27,7 @@ namespace PruebaMVC.Controllers
             ViewData["TituloSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
             ViewData["IDSortParm"] = sortOrder == "Grupos" ? "grupos_desc" : "Grupos";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha_desc" : "Fecha";
             if (await _context.DameTodos() == null)
             {
                 return Problem("Es nulo");
@@ -42,7 +44,7 @@ namespace PruebaMVC.Controllers
                     conjunto = conjunto.OrderByDescending(s => s.Titulo);
                     break;
                 case "Genero":
-                    conjunto =  conjunto.OrderBy(s => s.Genero);
+                    conjunto = conjunto.OrderBy(s => s.Genero);
                     break;
                 case "genero_desc":
                     conjunto = conjunto.OrderByDescending(s => s.Genero);
@@ -53,6 +55,12 @@ namespace PruebaMVC.Controllers
                 case "grupos_desc":
                     conjunto = conjunto.OrderByDescending(s => s.NombreGrupo);
                     break;
+                case "Fecha":
+                    conjunto = conjunto.OrderBy(s => s.Fecha);
+                    break;
+                case "fecha_desc":
+                    conjunto = conjunto.OrderByDescending(s => s.Fecha);
+                    break;
                 default:
                     conjunto = conjunto.OrderBy(s => s.Titulo);
                     break;
@@ -61,12 +69,54 @@ namespace PruebaMVC.Controllers
             return View(conjunto);
         }
 
-        public async Task<IActionResult> IndexConsulta()
+        public async Task<IActionResult> IndexConsulta(string sortOrder, string searchString)
         {
+           
+           
+            ViewData["TituloSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
+            ViewData["IDSortParm"] = sortOrder == "Grupos" ? "grupos_desc" : "Grupos";
+            ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha_desc" : "Fecha";
+            if (await _context.DameTodos() == null)
+            {
+                return Problem("Es nulo");
+            }
             var letra = 'u';
             var vista = await _contextVista.DameTodos();
             var conjunto = vista.Select(x => x).
-                           Where(x => x.Genero == "Heavy Metal" && x.Titulo != null && x.Titulo.Contains(letra));
+                Where(x => x.Genero == "Heavy Metal" && x.Titulo != null && x.Titulo.Contains(letra));
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                conjunto = conjunto.Where(s => s.Titulo!.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    conjunto = conjunto.OrderByDescending(s => s.Titulo);
+                    break;
+                case "Genero":
+                    conjunto = conjunto.OrderBy(s => s.Genero);
+                    break;
+                case "genero_desc":
+                    conjunto = conjunto.OrderByDescending(s => s.Genero);
+                    break;
+                case "Grupos":
+                    conjunto = conjunto.OrderBy(s => s.NombreGrupo);
+                    break;
+                case "grupos_desc":
+                    conjunto = conjunto.OrderByDescending(s => s.NombreGrupo);
+                    break;
+                case "Fecha":
+                    conjunto = conjunto.OrderBy(s => s.Fecha);
+                    break;
+                case "fecha_desc":
+                    conjunto = conjunto.OrderByDescending(s => s.Fecha);
+                    break;
+                default:
+                    conjunto = conjunto.OrderBy(s => s.Titulo);
+                    break;
+            }
+
             return View(conjunto);
         }
 
