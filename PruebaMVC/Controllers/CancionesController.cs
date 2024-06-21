@@ -72,7 +72,8 @@ namespace PruebaMVC.Controllers
         // GET: Canciones/Create
         public async Task<IActionResult> Create()
         {
-            ViewData[AlbumId] = new SelectList(await contextAlbume.DameTodos(), "Id", "Titulo");
+            var contextAlb = await contextAlbume.DameTodos();
+            ViewData[AlbumId] = new SelectList(contextAlb.OrderBy(x=>x.Titulo), "Id", "Titulo");
             return View();
         }
 
@@ -88,7 +89,8 @@ namespace PruebaMVC.Controllers
                 await context.Agregar(cancione);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData[AlbumId] = new SelectList(await contextAlbume.DameTodos(), "Id", "Id", cancione.AlbumesId);          
+            var contextAlb = await contextAlbume.DameTodos();
+            ViewData[AlbumId] = new SelectList(contextAlb.OrderBy(x => x.Titulo), "Id", "Titulo", cancione.AlbumesId);
             return View(cancione);
         }
 
@@ -101,7 +103,8 @@ namespace PruebaMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData[AlbumId] = new SelectList(await contextAlbume.DameTodos(), "Id", "Titulo", cancione.AlbumesId);
+            var contextAlb = await contextAlbume.DameTodos();
+            ViewData[AlbumId] = new SelectList(contextAlb.OrderBy(x => x.Titulo), "Id", "Titulo", cancione.AlbumesId);
             return View(cancione);
         }
 
@@ -138,7 +141,8 @@ namespace PruebaMVC.Controllers
             }
             var vista = await contextVista.DameTodos();
             var conjunto = vista.Find(x => x.Id == id);
-            ViewData[AlbumId] = new SelectList(await contextAlbume.DameTodos(), "Id", "Id", cancione.AlbumesId);
+            var contextAlb = await contextAlbume.DameTodos();
+            ViewData[AlbumId] = new SelectList(contextAlb.OrderBy(x => x.Titulo), "Id", "Titulo", cancione.AlbumesId);
             return View(conjunto);
         }
 

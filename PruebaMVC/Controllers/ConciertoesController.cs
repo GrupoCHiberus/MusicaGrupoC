@@ -17,10 +17,6 @@ namespace PruebaMVC.Controllers
             ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha-desc" : "Fecha";
             ViewData["LugarSortParm"] = sortOrder == "Lugar" ? "lugar_desc" : "Lugar";
             ViewData["PrecioSortParm"] = sortOrder == "Precio" ? "precio_desc" : "Precio";
-            if (await context.DameTodos() == null)
-            {
-                return Problem("Es nulo");
-            }
 
             var vista = await context.DameTodos();
             var conciertos = vista.Select(x=>x);

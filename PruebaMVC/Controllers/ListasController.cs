@@ -47,7 +47,8 @@ namespace PruebaMVC.Controllers
         // GET: Listas/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["UsuarioId"] = new SelectList(await contextUsuario.DameTodos(), "Id", "Nombre");
+            var contextoUsu = await contextUsuario.DameTodos();
+            ViewData["UsuarioId"] = new SelectList(contextoUsu.OrderBy(x=>x.Nombre), "Id", "Nombre");
             return View();
         }
 
@@ -63,7 +64,8 @@ namespace PruebaMVC.Controllers
                 await context.Agregar(lista);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(await contextUsuario.DameTodos(), "Id", "Id", lista.UsuarioId);
+            var contextoUsu = await contextUsuario.DameTodos();
+            ViewData["UsuarioId"] = new SelectList(contextoUsu.OrderBy(x => x.Nombre), "Id", "Nombre", lista.UsuarioId);
             return View(lista);
         }
 
@@ -73,7 +75,8 @@ namespace PruebaMVC.Controllers
             var lista = await context.DameUno(id);
             var vista = await context.DameTodos();
             var conjunto = vista.FirstOrDefault(x => x.Id == id);
-            ViewData["UsuarioId"] = new SelectList(await contextUsuario.DameTodos(), "Id", "Nombre", lista.UsuarioId);
+            var contextoUsu = await contextUsuario.DameTodos();
+            ViewData["UsuarioId"] = new SelectList(contextoUsu.OrderBy(x => x.Nombre), "Id", "Nombre", lista.UsuarioId);
             return View(conjunto);
         }
 
@@ -109,7 +112,8 @@ namespace PruebaMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(await contextUsuario.DameTodos(), "Id", "Id", lista.UsuarioId);
+            var contextoUsu = await contextUsuario.DameTodos();
+            ViewData["UsuarioId"] = new SelectList(contextoUsu.OrderBy(x => x.Nombre), "Id", "Nombre", lista.UsuarioId);
             return View(lista);
         }
 

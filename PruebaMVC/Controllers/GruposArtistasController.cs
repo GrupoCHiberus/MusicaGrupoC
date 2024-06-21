@@ -6,29 +6,20 @@ using PruebaMVC.Services.Repositorio;
 
 namespace PruebaMVC.Controllers
 {
-    public class GruposArtistasController : Controller
+    public class GruposArtistasController(
+        IGenericRepositorio<GruposArtista> context,
+        IGenericRepositorio<Artista> contextArtista,
+        IGenericRepositorio<Grupo> contextGrupo,
+        IGenericRepositorio<VistaGruposArtista> contextVista)
+        : Controller
     {
-        private readonly IGenericRepositorio<GruposArtista> _context;
-        private readonly IGenericRepositorio<Artista> _contextArtista;
-        private readonly IGenericRepositorio<Grupo> _contextGrupo;
-        private readonly IGenericRepositorio<VistaGruposArtista> _contextVista;
-
-        public GruposArtistasController(IGenericRepositorio<GruposArtista> context, IGenericRepositorio<Artista> contextArtista, IGenericRepositorio<Grupo> contextGrupo, IGenericRepositorio<VistaGruposArtista> contextVista)
-        {
-            _context = context;
-            _contextArtista = contextArtista;
-            _contextGrupo = contextGrupo;
-            _contextVista = contextVista;
-
-        }
-
         // GET: GruposArtistas
         public async Task<IActionResult> Index(string sortOrder)
         {
             ViewData["ArtistaSortParm"] = sortOrder == "NombreArtista" ? "artista_desc" : "NombreArtista";
             ViewData["GrupoSortParm"] = sortOrder == "NombreGrupo" ? "grupo_desc" : "NombreGrupo";
 
-            var grupoCContext = await _contextVista.DameTodos();
+            var grupoCContext = await contextVista.DameTodos();
 
             switch (sortOrder)
             {
@@ -57,7 +48,7 @@ namespace PruebaMVC.Controllers
                 return NotFound();
             }
 
-            var vista = await _contextVista.DameTodos();
+            var vista = await contextVista.DameTodos();
             var gruposArtista =vista.FirstOrDefault(m => m.Id == id);
             if (gruposArtista == null)
             {
@@ -70,8 +61,10 @@ namespace PruebaMVC.Controllers
         // GET: GruposArtistas/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["ArtistasId"] = new SelectList(await _contextArtista.DameTodos(), "Id", "Nombre");
-            ViewData["GruposId"] = new SelectList(await _contextGrupo.DameTodos(), "Id", "Nombre");
+            var contextArt = await contextArtista.DameTodos();
+            var contextGru = await contextGrupo.DameTodos();
+            ViewData["ArtistasId"] = new SelectList(contextArt.OrderBy(x=>x.Nombre), "Id", "Nombre");
+            ViewData["GruposId"] = new SelectList(contextGru.OrderBy(x=>x.Nombre), "Id", "Nombre");
             return View();
         }
 
@@ -84,31 +77,35 @@ namespace PruebaMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-               await _context.Agregar(gruposArtista);
+               await context.Agregar(gruposArtista);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistasId"] = new SelectList(await _contextArtista.DameTodos(), "Id", "Nombre", gruposArtista.ArtistasId);
-            ViewData["GruposId"] = new SelectList(await _contextGrupo.DameTodos(), "Id", "Nombre", gruposArtista.GruposId);
+            var contextArt = await contextArtista.DameTodos();
+            var contextGru = await contextGrupo.DameTodos();
+            ViewData["ArtistasId"] = new SelectList(contextArt.OrderBy(x => x.Nombre), "Id", "Nombre", gruposArtista.ArtistasId);
+            ViewData["GruposId"] = new SelectList(contextGru.OrderBy(x => x.Nombre), "Id", "Nombre", gruposArtista.GruposId);
             return View(gruposArtista);
         }
 
         // GET: GruposArtistas/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var gruposArtista = await _context.DameUno(id);
+            var gruposArtista = await context.DameUno((int)id);
             if (gruposArtista == null)
             {
                 return NotFound();
             }
-            var vista = await _contextVista.DameTodos();
+            var vista = await contextVista.DameTodos();
             var conjunto = vista.FirstOrDefault(x => x.Id == id);
-            ViewData["ArtistasId"] = new SelectList(await _contextArtista.DameTodos(), "Id", "Nombre", gruposArtista.ArtistasId);
-            ViewData["GruposId"] = new SelectList(await _contextGrupo.DameTodos(), "Id", "Nombre", gruposArtista.GruposId);
+            var contextArt = await contextArtista.DameTodos();
+            var contextGru = await contextGrupo.DameTodos();
+            ViewData["ArtistasId"] = new SelectList(contextArt.OrderBy(x => x.Nombre), "Id", "Nombre", gruposArtista.ArtistasId);
+            ViewData["GruposId"] = new SelectList(contextGru.OrderBy(x => x.Nombre), "Id", "Nombre", gruposArtista.GruposId);
             return View(conjunto);
         }
 
@@ -128,7 +125,7 @@ namespace PruebaMVC.Controllers
             {
                 try
                 {
-                    _context.Modificar(id,gruposArtista);
+                   await context.Modificar(id,gruposArtista);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -143,10 +140,12 @@ namespace PruebaMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            var vista = await _contextVista.DameTodos();
+            var vista = await contextVista.DameTodos();
             var conjunto = vista.FirstOrDefault(x => x.Id == id);
-            ViewData["ArtistasId"] = new SelectList(await _contextArtista.DameTodos(), "Id", "Nombre", gruposArtista.ArtistasId);
-            ViewData["GruposId"] = new SelectList(await _contextGrupo.DameTodos(), "Id", "Nombre", gruposArtista.GruposId);
+            var contextArt = await contextArtista.DameTodos();
+            var contextGru = await contextGrupo.DameTodos();
+            ViewData["ArtistasId"] = new SelectList(contextArt.OrderBy(x => x.Nombre), "Id", "Nombre", gruposArtista.ArtistasId);
+            ViewData["GruposId"] = new SelectList(contextGru.OrderBy(x => x.Nombre), "Id", "Nombre", gruposArtista.GruposId);
             return View(conjunto);
         }
 
@@ -158,7 +157,7 @@ namespace PruebaMVC.Controllers
                 return NotFound();
             }
 
-            var vista = await _contextVista.DameTodos();
+            var vista = await contextVista.DameTodos();
             var gruposArtista = vista.FirstOrDefault(m => m.Id == id);
             if (gruposArtista == null)
             {
@@ -173,17 +172,17 @@ namespace PruebaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var gruposArtista = await _context.DameUno(id);
+            var gruposArtista = await context.DameUno(id);
             if (gruposArtista != null)
             {
-               await _context.Borrar(id);
+               await context.Borrar(id);
             }
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> GruposArtistaExists(int id)
         {
-            var vista =await _contextArtista.DameTodos();
+            var vista =await contextArtista.DameTodos();
             return vista.Any(e => e.Id == id);
         }
     }

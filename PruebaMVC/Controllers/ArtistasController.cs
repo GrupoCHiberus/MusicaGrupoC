@@ -12,28 +12,20 @@ using PruebaMVC.Services.Repositorio;
 
 namespace PruebaMVC.Controllers
 {
-    public class ArtistasController : Controller
+    public class ArtistasController(IGenericRepositorio<Artista> context) : Controller
     {
-        private readonly IGenericRepositorio<Artista> _context;
-
-
-        public ArtistasController(IGenericRepositorio<Artista> context)
-        {
-            _context = context;
-        }
-
         // GET: Artistas
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             ViewData["NombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
             ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
             ViewData["FechaSortParm"] = sortOrder == "Fecha de Nacimiento" ? "fecha_desc" : "Fecha de Nacimiento";
-            if (await _context.DameTodos() == null)
+            if (await context.DameTodos() == null)
             {
                 return Problem("Es nulo");
             }
 
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             var artistas = from m in vista
                            select m;
 
@@ -70,7 +62,7 @@ namespace PruebaMVC.Controllers
             ViewData["NombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
             ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
             ViewData["FechaSortParm"] = sortOrder == "Fecha de Nacimiento" ? "fecha_desc" : "Fecha de Nacimiento";
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             var artistas = vista.Where(x => x.FechaNac !=null && x.FechaNac.Value.Year >1950);
 
             switch (sortOrder)
@@ -106,7 +98,7 @@ namespace PruebaMVC.Controllers
                 return NotFound();
             }
 
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             var artista = vista
                 .FirstOrDefault(m => m.Id == id);
             if (artista == null)
@@ -140,7 +132,7 @@ namespace PruebaMVC.Controllers
                         artista.Foto = memoryStream.ToArray();
                     }
                 }
-                await _context.Agregar(artista);
+                await context.Agregar(artista);
                 return RedirectToAction(nameof(Index));
             }
             return View(artista);
@@ -150,7 +142,7 @@ namespace PruebaMVC.Controllers
         public async Task<IActionResult> Edit(int id)
         {
          
-            var artista = await _context.DameUno(id);
+            var artista = await context.DameUno(id);
             
             return View(artista);
         }
@@ -171,7 +163,7 @@ namespace PruebaMVC.Controllers
             {
                 try
                 {
-                    var artistaToUpdate = await _context.DameUno(id);
+                    var artistaToUpdate = await context.DameUno(id);
                     if (foto != null && foto.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
@@ -184,7 +176,7 @@ namespace PruebaMVC.Controllers
                     artistaToUpdate.Nombre = artista.Nombre;
                     artistaToUpdate.Genero = artista.Genero;
                     artistaToUpdate.FechaNac = artista.FechaNac;
-                    await _context.Modificar(id, artistaToUpdate);
+                    await context.Modificar(id, artistaToUpdate);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -209,7 +201,7 @@ namespace PruebaMVC.Controllers
             {
                 return NotFound();
             }
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             var artista = vista
                 .FirstOrDefault(m => m.Id == id);
             if (artista == null)
@@ -225,17 +217,17 @@ namespace PruebaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var artista = await _context.DameUno(id);
+            var artista = await context.DameUno(id);
             if (artista != null)
             {
-               await _context.Borrar(id);
+               await context.Borrar(id);
             }
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> ArtistaExists(int id)
         {
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             return vista.Any(e => e.Id == id);
         }
     }
