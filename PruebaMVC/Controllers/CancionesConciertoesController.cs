@@ -59,8 +59,10 @@ namespace PruebaMVC.Controllers
         // GET: CancionesConciertoes/Create
         public async Task<IActionResult> Create()
         {
-            ViewData[DataCanciones] = new SelectList(await contextCancione.DameTodos(), "Id", DataComboTitulo);
-            ViewData[DataConciertos] = new SelectList(await contextConcierto.DameTodos(), "Id", DataComboTitulo);
+            var contextCan = await contextCancione.DameTodos();
+            var contextConci = await contextConcierto.DameTodos();
+            ViewData[DataCanciones] = new SelectList(contextCan.OrderBy(x=>x.Titulo), "Id", DataComboTitulo);
+            ViewData[DataConciertos] = new SelectList(contextConci.OrderBy(x=>x.Titulo), "Id", DataComboTitulo);
             return View();
         }
 
@@ -76,8 +78,10 @@ namespace PruebaMVC.Controllers
                 await context.Agregar(cancionesConcierto);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData[DataCanciones] = new SelectList(await contextCancione.DameTodos(), "Id", DataComboTitulo, cancionesConcierto.CancionesId);
-            ViewData[DataConciertos] = new SelectList(await contextConcierto.DameTodos(), "Id", DataComboTitulo, cancionesConcierto.ConciertosId);
+            var contextCan = await contextCancione.DameTodos();
+            var contextConci = await contextConcierto.DameTodos();
+            ViewData[DataCanciones] = new SelectList(contextCan.OrderBy(x => x.Titulo), "Id", DataComboTitulo, cancionesConcierto.CancionesId);
+            ViewData[DataConciertos] = new SelectList(contextConci.OrderBy(x => x.Titulo), "Id", DataComboTitulo, cancionesConcierto.ConciertosId);
             return View(cancionesConcierto);
         }
 
@@ -93,8 +97,10 @@ namespace PruebaMVC.Controllers
 
             var vista = await contextVista.DameTodos();
             var conjunto = vista.AsParallel().FirstOrDefault(x => x.Id == id);
-            ViewData[DataCanciones] = new SelectList(await contextCancione.DameTodos(), "Id", DataComboTitulo, cancionesConcierto.CancionesId);
-            ViewData[DataConciertos] = new SelectList(await contextConcierto.DameTodos(), "Id", DataComboTitulo, cancionesConcierto.ConciertosId);
+            var contextCan = await contextCancione.DameTodos();
+            var contextConci = await contextConcierto.DameTodos();
+            ViewData[DataCanciones] = new SelectList(contextCan.OrderBy(x => x.Titulo), "Id", DataComboTitulo, cancionesConcierto.CancionesId);
+            ViewData[DataConciertos] = new SelectList(contextConci.OrderBy(x => x.Titulo), "Id", DataComboTitulo, cancionesConcierto.ConciertosId);
             return View(conjunto);
         }
 
@@ -131,8 +137,10 @@ namespace PruebaMVC.Controllers
             }
             var vista = await contextVista.DameTodos();
             var conjunto = vista.AsParallel().FirstOrDefault(x => x.Id == id);
-            ViewData[DataCanciones] = new SelectList(await contextCancione.DameTodos(), "Id", DataComboTitulo, cancionesConcierto.CancionesId);
-            ViewData[DataConciertos] = new SelectList(await contextConcierto.DameTodos(), "Id", DataComboTitulo, cancionesConcierto.ConciertosId);
+            var contextCan = await contextCancione.DameTodos();
+            var contextConci = await contextConcierto.DameTodos();
+            ViewData[DataCanciones] = new SelectList(contextCan.OrderBy(x => x.Titulo), "Id", DataComboTitulo, cancionesConcierto.CancionesId);
+            ViewData[DataConciertos] = new SelectList(contextConci.OrderBy(x => x.Titulo), "Id", DataComboTitulo, cancionesConcierto.ConciertosId);
             return View(conjunto);
         }
 

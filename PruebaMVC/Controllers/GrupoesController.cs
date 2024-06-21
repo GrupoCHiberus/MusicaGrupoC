@@ -5,24 +5,13 @@ using PruebaMVC.Services.Repositorio;
 
 namespace PruebaMVC.Controllers
 {
-    public class GrupoesController : Controller
+    public class GrupoesController(IGenericRepositorio<Grupo> context) : Controller
     {
-        private readonly IGenericRepositorio<Grupo> _context;
-
-        public GrupoesController(IGenericRepositorio<Grupo> context)
-        {
-            _context = context;
-        }
-
         // GET: Grupoes
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             ViewData["NombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
-            if (await _context.DameTodos() == null)
-            {
-                return Problem("Es nulo");
-            }
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             var grupos = vista.Select(x=>x);
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -43,12 +32,8 @@ namespace PruebaMVC.Controllers
         public async Task<IActionResult> IndexConArtistas(string sortOrder, string searchString)
         {
             ViewData["NombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
-            if (await _context.DameTodos() == null)
-            {
-                return Problem("Es nulo");
-            }
 
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             var grupos = vista.Select(x => x);
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -73,7 +58,7 @@ namespace PruebaMVC.Controllers
         {
             
 
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             var grupo = vista
                 .FirstOrDefault(m => m.Id == id);
 
@@ -95,7 +80,7 @@ namespace PruebaMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _context.Agregar(grupo);
+                await context.Agregar(grupo);
                 return RedirectToAction(nameof(Index));
             }
             return View(grupo);
@@ -106,7 +91,7 @@ namespace PruebaMVC.Controllers
         {
            
 
-            var grupo = await _context.DameUno(id);
+            var grupo = await context.DameUno(id);
             
             return View(grupo);
         }
@@ -127,7 +112,7 @@ namespace PruebaMVC.Controllers
             {
                 try
                 {
-                    _context.Modificar(id,grupo);
+                    await context.Modificar(id,grupo);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -153,7 +138,7 @@ namespace PruebaMVC.Controllers
                 return NotFound();
             }
 
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             var grupo = vista
                 .FirstOrDefault(m => m.Id == id);
             if (grupo == null)
@@ -169,17 +154,17 @@ namespace PruebaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var grupo = await _context.DameUno(id);
+            var grupo = await context.DameUno(id);
             if (grupo != null)
             {
-                await _context.Borrar(id);
+                await context.Borrar(id);
             }
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> GrupoExists(int id)
         {
-            var vista = await _context.DameTodos();
+            var vista = await context.DameTodos();
             return vista.Any(e => e.Id == id);
         }
     }
