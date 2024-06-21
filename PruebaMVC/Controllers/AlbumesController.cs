@@ -21,7 +21,7 @@ namespace PruebaMVC.Controllers
             ViewData["IDSortParm"] = sortOrder == "Grupos" ? "grupos_desc" : "Grupos";
             ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha_desc" : "Fecha";
 
-            var vista = await _contextVista.DameTodos();
+            var vista = await contextVista.DameTodos();
             var conjunto = vista.Select(x => x);
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -66,10 +66,6 @@ namespace PruebaMVC.Controllers
             ViewData["GeneroSortParm"] = sortOrder == "Genero" ? "genero_desc" : "Genero";
             ViewData["IDSortParm"] = sortOrder == "Grupos" ? "grupos_desc" : "Grupos";
             ViewData["FechaSortParm"] = sortOrder == "Fecha" ? "fecha_desc" : "Fecha";
-            if (await _context.DameTodos() == null)
-            {
-                return Problem("Es nulo");
-            }
             var letra = 'u';
             var vista = await contextVista.DameTodos();
             var conjunto = vista.Select(x => x).
