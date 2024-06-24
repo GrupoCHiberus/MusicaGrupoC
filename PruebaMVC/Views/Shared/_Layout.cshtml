@@ -180,6 +180,7 @@
             }
         }
         function siguiente() {
+            let posicion = 0;
             for (let i = 0; i < $('.carousel-item').length; i++) {
                 if ($('.carousel-item').eq(i).hasClass('active')) posicion = i;
             }
@@ -362,29 +363,30 @@
         }
     </script>
     <script>
-        $('#pagSiguiente').on('click', pagSiguiente);
-        $('#pagAnterior').on('click', pagAnterior);
         paginacion();
-        function pagSiguiente() {
-            if (parseInt($('#pagActual').text()) != Math.floor($('.tarjeta').filter('.filtrado').length/8) + 1) {
-                $('#pagActual').text(parseInt($('#pagActual').text()) + 1);
-                $('#pagSiguiente').text(parseInt($('#pagActual').text()) + 1);
-                if (parseInt($('#pagActual').text()) != 2) $('#pagAnterior').text(parseInt($('#pagActual').text()) - 1);
-            }
-            paginacion();
-        }
-        function pagAnterior() {
-            if (parseInt($('#pagActual').text()) != 1) {
-                $('#pagActual').text(parseInt($('#pagActual').text()) - 1);
-                if(parseInt($('#pagActual').text()) != 1)$('#pagAnterior').text(parseInt($('#pagActual').text()) - 1);
-            }
-            $('#pagSiguiente').text(parseInt($('#pagActual').text()) + 1);
-            paginacion();
-        }
+        $(window).on('resize', paginacion);
         function paginacion() {
-            $('.tarjeta').hide();
-            for (let i = (parseInt($('#pagActual').text()) - 1) * 8; i < parseInt($('#pagActual').text()) * 8; i++) {
-                $('.tarjeta').filter('.filtrado').eq(i).show();
+            if ($('#contenedorTarjetas .tarjeta').eq(0).length > 0) {
+                $('.paginas').html('');
+                $('.paginas').css('margin-left', $('#contenedorTarjetas .tarjeta').eq(0).offset().left + 'px');
+                for (let i = 0; i < ($('#contenedorTarjetas .tarjeta').length / 8); i++) {
+                    $('.paginas').append(`<button class="pagina" style="width: 50px;height:50px;background-color:red;color:white;margin-right:8px;">${i}</button>`);
+                }
+                $('.paginas .pagina').eq(0).css('background-color', 'black');
+                $('.tarjeta').hide();
+                for (let i = 0; i < 8; i++) {
+                    $('.tarjeta').filter('.filtrado').eq(i).show();
+                }
+
+                $('.paginas .pagina').on('click',irAPagina);
+            } 
+            function irAPagina() {
+                $('.tarjeta').hide();
+                for (let i = (parseInt($(this).text())) * 8; i < (parseInt($(this).text()) + 1) * 8; i++) {
+                        $('.tarjeta').filter('.filtrado').eq(i).show();
+                }
+                $('.paginas .pagina').css('background-color', 'red');
+                $(this).css('background-color', 'black');
             }
         }
     </script>
