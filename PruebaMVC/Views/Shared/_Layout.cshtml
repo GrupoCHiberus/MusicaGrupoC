@@ -208,11 +208,19 @@
                 $('#Filtro').removeClass("esconder");
                 $('#Filtro').addClass("d-flex");
                 $(".botonFiltro").addClass('botonFiltroClickado');
+                $('#errorPrecio').removeClass("esconder");
+                $('#errorFecha').removeClass("esconder");
             }else {
                 $(".botonFiltro").removeClass('botonFiltroClickado');
                 $('#Filtro').addClass("esconder");
                 $("#Filtro").removeClass('d-flex');
+                $('#errorPrecio').addClass("esconder");
+                $('#errorFecha').addClass("esconder");
             }
+            $(".filtroPrecio").css({
+                "left": $('#filtroPrecioConcierto').offset().left,
+                "top": $('#filtroPrecioConcierto').offset().top + $('#filtroPrecioConcierto').height() + 10,
+            });
         });
         $('#x').on('click', function () {
             if ($('.botonFiltro').hasClass('esconder')) {
@@ -226,6 +234,9 @@
         });
     </script>
     <script>
+        $('#errorPrecio').hide();
+        $('#errorFecha').hide();
+
         $('.tarjeta').addClass('filtrado');
         $('#filtroNombreConcierto').on('change', function () {
             $('.tarjeta').addClass('filtrado');
@@ -255,14 +266,43 @@
             paginacion();
         });
         $('#filtroPrecioConcierto').on('change', function () {
-            $('.tarjeta').addClass('filtrado');
-            filtroPorTitulo();
-            filtroPorLugar();
-            filtroPorNombreGrupo();
-            filtroPorPrecio();
-            filtroPorFecha();
-            paginacion();
+            precioFiltra();
         });
+        $('#igualdadPrecio').on('change', function () {
+            precioFiltra();
+        });
+        function precioFiltra() {
+            if (validarPrecio()) {
+                $('.tarjeta').addClass('filtrado');
+                filtroPorTitulo();
+                filtroPorLugar();
+                filtroPorNombreGrupo();
+                filtroPorPrecio();
+                filtroPorFecha();
+                paginacion();
+                $('#errorPrecio').hide();
+            } else {
+                $('#errorPrecio').show();
+                $("#errorPrecio").css({
+                    "position": "absolute",
+                    "left": $('#filtroPrecioConcierto').offset().left,
+                    "top": $('#filtroPrecioConcierto').offset().top + $('#filtroPrecioConcierto').height() + 10,
+                    "z-index": "10"
+                });
+            }
+            $(window).on('resize', function () {
+                $("#errorPrecio").css({
+                    "left": $('#filtroPrecioConcierto').offset().left,
+                    "top": $('#filtroPrecioConcierto').offset().top + $('#filtroPrecioConcierto').height() + 10,
+                });
+            });
+            $(window).on('scroll', function () {
+                $("#errorPrecio").css({
+                    "left": $('#filtroPrecioConcierto').offset().left,
+                    "top": $('#filtroPrecioConcierto').offset().top + $('#filtroPrecioConcierto').height() + 10,
+                });
+            });
+        }
         $('#filtroFechaConcierto').on('change', function () {
             $('.tarjeta').addClass('filtrado');
             filtroPorTitulo();
@@ -352,6 +392,13 @@
                     break;
                 default: break;
             }
+        }
+        function validarPrecio() {
+            let regex = new RegExp('([0-9]{1,4}([.][0-9]{1,2})?)');
+            if (regex.test($('#filtroPrecioConcierto').val())) {
+                return true;
+            }
+            return false;
         }
         function createDate(fecha) {
             let arrayFecha = fecha.split('/');
