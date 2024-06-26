@@ -368,21 +368,20 @@
         function paginacion() {
             if ($('#contenedorTarjetas .tarjeta').eq(0).length > 0) {
                 $('.paginas').html('');
-                $('.paginas').css('margin-left', $('#contenedorTarjetas .tarjeta').eq(0).offset().left + 'px');
-                for (let i = 0; i < ($('#contenedorTarjetas .tarjeta').filter('.filtrado').length / 8); i++) {
-                    $('.paginas').append(`<button class="pagina" style="width: 50px;height:50px;background-color:red;color:white;margin-right:8px;">${i}</button>`);
+                for (let i = 0; i < $('#contenedorTarjetas .tarjeta').filter('.filtrado').length / 8; i++) {
+                    $('.paginas').append(`<button class="pagina" style="width: 50px;height:50px;background-color:red;color:white;margin-right:8px;">${i + 1}</button>`);
                 }
                 $('.paginas .pagina').eq(0).css('background-color', 'black');
                 $('.tarjeta').hide();
                 for (let i = 0; i < 8; i++) {
                     $('.tarjeta').filter('.filtrado').eq(i).show();
                 }
-
+                $('.paginas').css('margin-left', $('#contenedorTarjetas .tarjeta').filter('.filtrado').eq(0).offset().left + 'px');
                 $('.paginas .pagina').on('click',irAPagina);
             } 
             function irAPagina() {
                 $('.tarjeta').hide();
-                for (let i = (parseInt($(this).text())) * 8; i < (parseInt($(this).text()) + 1) * 8; i++) {
+                for (let i = (parseInt($(this).text()) - 1) * 8; i < (parseInt($(this).text())) * 8; i++) {
                         $('.tarjeta').filter('.filtrado').eq(i).show();
                 }
                 $('.paginas .pagina').css('background-color', 'red');
