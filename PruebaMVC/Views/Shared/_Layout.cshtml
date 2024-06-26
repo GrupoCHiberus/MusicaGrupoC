@@ -376,7 +376,7 @@
                 for (let i = 0; i < 8; i++) {
                     $('.tarjeta').filter('.filtrado').eq(i).show();
                 }
-                $('.paginas').css('margin-left', $('#contenedorTarjetas .tarjeta').filter('.filtrado').eq(0).offset().left + 'px');
+                if ($('#contenedorTarjetas .tarjeta').filter('.filtrado').length > 0)$('.paginas').css('margin-left', $('#contenedorTarjetas .tarjeta').filter('.filtrado').eq(0).offset().left + 'px');
                 $('.paginas .pagina').on('click',irAPagina);
             } 
             function irAPagina() {
